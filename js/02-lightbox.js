@@ -1,4 +1,33 @@
 import { galleryItems } from './gallery-items.js';
 // Change code below this line
 
-console.log(galleryItems);
+const galleryContainer = document.querySelector('.gallery');
+const imagesList = createImagesCards(galleryItems);
+galleryContainer.insertAdjacentHTML('beforeend', imagesList);
+galleryContainer.addEventListener('click', onPictureComntainerClick);
+
+
+function createImagesCards(picture) {
+    return picture.map(({ preview, original, description }) => {
+        
+        return `
+            <a class="gallery__item" href="${original}">
+                <img
+                class="gallery__image"
+                src="${preview}"
+                title="${description}"
+                alt="${description}"
+                />
+            </a>
+        `;
+    }).join('');
+}
+
+function onPictureComntainerClick(event) {
+    event.preventDefault();
+}
+
+let lightbox = new SimpleLightbox('.gallery a');
+lightbox.on('show.simplelightbox', function () {
+    lightbox.defaultOptions.captionDelay = 250;
+});
